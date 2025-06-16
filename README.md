@@ -1,13 +1,13 @@
 # Cpp-homework
 
-Small demo project featuring a turn-based game.
+Small demo project featuring a turn-based game implemented in a single file.
 
 ## Build
 
-Compile all sources with g++:
+Compile the source with g++:
 
 ```bash
-g++ src/*.cpp -o game
+g++ src/main.cpp -o game
 ```
 
 Run with `./game`.
