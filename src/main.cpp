@@ -1,8 +1,7 @@
-#include "piece.h"
-#include <iostream>
+#include "game.h"
 
 int main() {
-    Piece p("Knight", 100, 15);
-    std::cout << "Piece: " << p.getName() << " HP: " << p.getHP() << " Attack: " << p.getAttack() << std::endl;
+    Game game(8, 8);
+    game.run(3);
     return 0;
 }

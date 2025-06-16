@@ -1,10 +1,10 @@
 # Cpp-homework
 
-Simple project demonstrating a base Piece class.
+Small demo project featuring a turn-based game.
 
 ## Build
 
-Use g++ to compile the sources:
+Compile all sources with g++:
 
 ```bash
 g++ src/*.cpp -o game
