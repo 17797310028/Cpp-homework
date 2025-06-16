@@ -4,10 +4,10 @@
 
 ## 构建
 
-使用 g++ 编译所有源文件：
+使用 g++ 编译单个源文件：
 
 ```bash
-g++ -std=c++14 src/*.cpp -o game
+g++ -std=c++14 src/main.cpp -o game
 ```
 
 运行：`./game`

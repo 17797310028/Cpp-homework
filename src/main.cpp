@@ -1,5 +1,24 @@
 #include <iostream>
-#include "piece.h"
+#include <string>
+
+class Piece {
+public:
+    Piece(const std::string& name, int hp, int attack)
+        : name_(name), hp_(hp), attack_(attack) {}
+    virtual ~Piece() = default;
+
+    const std::string& getName() const { return name_; }
+    int getHP() const { return hp_; }
+    int getAttack() const { return attack_; }
+
+    void setHP(int hp) { hp_ = hp; }
+    void setAttack(int attack) { attack_ = attack; }
+
+private:
+    std::string name_;
+    int hp_;
+    int attack_;
+};
 
 class King : public Piece {
 public:
