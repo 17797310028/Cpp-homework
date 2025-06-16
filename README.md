@@ -1,13 +1,13 @@
 # Cpp-homework
 
-Small demo project featuring a turn-based game implemented in a single file.
+简单的 C++ 练习项目，演示了基础的类定义与继承。
 
-## Build
+## 构建
 
-Compile the source with g++:
+使用 g++ 编译所有源文件：
 
 ```bash
-g++ -std=c++14 src/main.cpp -o game
+g++ -std=c++14 src/*.cpp -o game
 ```
 
-Run with `./game`.
+运行：`./game`
