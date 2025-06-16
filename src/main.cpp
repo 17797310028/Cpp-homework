@@ -1,7 +1,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <memory>
+#include <cstddef>
+
+using namespace std;
 
 struct Position {
     int x;
@@ -51,44 +53,74 @@ public:
     Sword() : Piece("Sword", 110, 18) {}
 };
 
+class Game;  // forward declaration
+
 class Map {
+    friend class Game; // 让 Game 直接访问棋盘
 public:
-    void addPiece(std::unique_ptr<Piece> p) {
-        pieces_.push_back(std::move(p));
+    ~Map() {
+        for (size_t i = 0; i < pieces_.size(); ++i) {
+            delete pieces_[i];
+        }
     }
 
-    const std::vector<std::unique_ptr<Piece>>& getPieces() const { return pieces_; }
+    void addPiece(Piece* p) {
+        pieces_.push_back(p);
+    }
+
+    const std::vector<Piece*>& getPieces() const { return pieces_; }
 
     void printPieces() const {
-        for (const auto& p : pieces_) {
-            std::cout << p->getName() << " (" << p->getX() << "," << p->getY() << ") "
-                      << "HP:" << p->getHP() << " ATK:" << p->getAttack() << std::endl;
+        for (size_t i = 0; i < pieces_.size(); ++i) {
+            Piece* p = pieces_[i];
+            cout << p->getName() << " (" << p->getX() << "," << p->getY() << ") "
+                 << "HP:" << p->getHP() << " ATK:" << p->getAttack() << endl;
         }
     }
 
 private:
-    std::vector<std::unique_ptr<Piece>> pieces_;
+    std::vector<Piece*> pieces_;
+};
+
+class Game {
+public:
+    void init() {
+        Piece* king = new King();
+        king->setPosition(0, 0);
+        map_.addPiece(king);
+
+        Piece* doctor = new Doctor();
+        doctor->setPosition(1, 0);
+        map_.addPiece(doctor);
+
+        Piece* bow = new Bow();
+        bow->setPosition(0, 1);
+        map_.addPiece(bow);
+
+        Piece* sword = new Sword();
+        sword->setPosition(1, 1);
+        map_.addPiece(sword);
+    }
+
+    void run(int turns) {
+        for (int t = 0; t < turns; ++t) {
+            cout << "---- 回合 " << (t + 1) << " ----" << endl;
+            const vector<Piece*>& pieces = map_.getPieces();
+            for (size_t i = 0; i < pieces.size(); ++i) {
+                pieces[i]->setHP(pieces[i]->getHP() - 1); // 简单操作
+            }
+        }
+        cout << "最终状态:" << endl;
+        map_.printPieces();
+    }
+
+private:
+    Map map_;
 };
 
 int main() {
-    Map map;
-
-    auto king = std::make_unique<King>();
-    king->setPosition(0, 0);
-    map.addPiece(std::move(king));
-
-    auto doctor = std::make_unique<Doctor>();
-    doctor->setPosition(1, 0);
-    map.addPiece(std::move(doctor));
-
-    auto bow = std::make_unique<Bow>();
-    bow->setPosition(0, 1);
-    map.addPiece(std::move(bow));
-
-    auto sword = std::make_unique<Sword>();
-    sword->setPosition(1, 1);
-    map.addPiece(std::move(sword));
-
-    map.printPieces();
+    Game game;
+    game.init();
+    game.run(3);
     return 0;
 }
