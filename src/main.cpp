@@ -2,6 +2,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <utility>
 
 class Piece {
 public:
@@ -32,6 +33,8 @@ public:
     Map(int width, int height) : width_(width), height_(height), grid_(height) {
         for (auto& row : grid_) row.resize(width_);
     }
+    int width() const { return width_; }
+    int height() const { return height_; }
     void placePiece(std::unique_ptr<Piece> p, int x, int y) {
         if (x>=0 && x<width_ && y>=0 && y<height_) grid_[y][x] = std::move(p);
     }
@@ -58,8 +61,8 @@ public:
             ++turn_;
             std::cout << "Turn: " << turn_ << std::endl;
             // simple log of pieces
-            for (int y=0; y<2; ++y) {
-                for (int x=0; x<2; ++x) {
+            for (int y=0; y<map_.height(); ++y) {
+                for (int x=0; x<map_.width(); ++x) {
                     Piece* p = map_.getPiece(x,y);
                     if (p) std::cout << p->getName() << "("<< p->getHP() <<") ";
                 }
